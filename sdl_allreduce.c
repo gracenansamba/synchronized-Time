@@ -20,7 +20,9 @@ int main(int argc, char** argv) {
     else {
        	sscanf(argv[1],"%d",&VECTOR_SIZE);	
     }
-    int local_vector[VECTOR_SIZE];
+
+    int* local_vector = (int*) malloc(VECTOR_SIZE*sizeof(int)); 
+    //int local_vector[VECTOR_SIZE];
     srand(rank);
     for (int i = 0; i < VECTOR_SIZE; ++i) {
         local_vector[i] = rand() % 10;
@@ -31,7 +33,8 @@ int main(int argc, char** argv) {
     double end_sync_time = MPI_Wtime();
 
     // Sum the vectors using MPI_Allreduce
-    int global_vector[VECTOR_SIZE];
+    //int global_vector[VECTOR_SIZE];
+    int* global_vector = (int*) malloc(VECTOR_SIZE*sizeof(int)); 
     double start_time = MPI_Wtime();
     MPI_Allreduce(local_vector, global_vector, VECTOR_SIZE, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
     double end_time = MPI_Wtime();
@@ -63,6 +66,8 @@ int main(int argc, char** argv) {
         printf("Synchronization Time: %f seconds\n", total_sync_time);
         printf("AllReduce Time: %f seconds\n", program_time);
     }
+    free(local_vector);
+    free(global_vector);
     MPI_Finalize();
     return 0;
 }
