@@ -57,6 +57,8 @@ int main(int argc, char** argv) {
 	double sync_time2 =  end_sync_time2 -start_sync_time2;
 	double total_sync_time = sync_time + sync_time2;
 	double program_time = end_time - start_time;
+	
+	printf("Number of process = %d, vector = %d \n", size, VECTOR_SIZE);
        
         printf("Synchronization Time: %f seconds\n", total_sync_time);
         printf("AllReduce Time: %f seconds\n", program_time);
